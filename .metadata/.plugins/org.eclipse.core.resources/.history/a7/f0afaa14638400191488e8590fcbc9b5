@@ -1,0 +1,67 @@
+package com.weinvest.pages;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.Test;
+
+import com.utilities.WaitForMilliSeconds;
+
+import junit.framework.Assert;
+
+public class TestCPage {
+
+	
+	@FindBy(css = "div.container>div:nth-child(4)>ul.model-portfolio-navs.hidden-sm.hidden-xs>li:nth-child(1)>a")
+	private WebElement firstTab;
+
+	@FindBy(xpath = "div.container>div:nth-child(4)>ul.model-portfolio-navs.hidden-sm.hidden-xs>li:nth-child(2)>a")
+	private WebElement secondTab;
+
+	@FindBy(css = "section>div.container>div:nth-child(4)>ul.model-portfolio-navs.mobile>li:nth-child(1)>a")
+	private WebElement firstTabAfterResize;
+
+	@FindBy(xpath = "section>div.container>div:nth-child(4)>ul.model-portfolio-navs.mobile>li:nth-child(2)>a")
+	private WebElement secondTabAfterResize;
+
+	public WebDriver driver;
+	public boolean tab1textBeforeResize;
+	public boolean tab2textBeforeResize;
+	public String tab1NumberBeforeResize;
+	public String tab2NumberBeforeResize;
+	
+	public String tab1textAfterResize;
+	public String tab2textAfterResize;
+	public int tab1NumberAfterResize;
+	public int tab2NumberAfterResize;
+
+	public TestCPage(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+
+	}
+
+	WaitForMilliSeconds waitFor = new WaitForMilliSeconds();
+
+	public void testCBeforeResizeWindow() {
+
+		tab1textBeforeResize= firstTab.getText().contains("3 Portfolio recommendations based on your preferences");
+		tab1NumberBeforeResize=firstTab.getText().trim().replaceAll("[^0-9]", "");
+		
+		tab2textBeforeResize=secondTab.getText().contains("15 other portfolio choices available");
+		tab2NumberBeforeResize=secondTab.getText().trim().replaceAll("[^0-9]", "");
+		
+		
+	}
+}

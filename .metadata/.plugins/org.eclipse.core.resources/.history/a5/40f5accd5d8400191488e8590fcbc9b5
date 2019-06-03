@@ -1,0 +1,36 @@
+package test.hotelbooking;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
+
+import com.test.base.BaseTest;
+import com.weinvest.pages.TestAPage;
+
+import junit.framework.Assert;
+
+public class TestB extends BaseTest {
+	
+	@Test
+	public void TestA() {
+
+		TestCaseName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		System.out.println("Executing Scenario ........" + TestCaseName);
+		TestBPage test_BPage = new TestBPage(driver);
+		test_BPage.testBPageMethod();
+		
+		Assert.assertEquals("13.79", test_APage.spdrPortfolio.getText());
+		
+	}
+
+}

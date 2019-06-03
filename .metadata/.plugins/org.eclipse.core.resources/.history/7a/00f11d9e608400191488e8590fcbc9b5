@@ -1,0 +1,89 @@
+package com.weinvest.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
+
+import com.utilities.WaitForMilliSeconds;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class TestBPage {
+
+	@FindBy(id = "btn-explore79")
+	private WebElement allWeatherStrategy;
+
+	@FindBy(css = "a.btn-invest.btn-md.btn-customize-portfolio")
+	private WebElement customisePortfolio;
+
+	@FindBy(xpath = "//a[contains(text(),'Customise')]")
+	private WebElement customise;
+
+	@FindBy(xpath = "//*[contains(text(),'Reset')]")
+	private WebElement reset;
+
+	@FindBy(css = "div.portfolio-constituents > div > div:nth-child(3)>div>div>div:nth-child(4)>div>a")
+	private WebElement addStocklink;
+
+	@FindBy(css = "#modal-1>div>div>div.modal-body>div>div>div:nth-child(66)>div:nth-child(4)>button")
+	private WebElement addStockBTGroupPlc;
+
+	@FindBy(css = "#modal-1>div>div>div.modal-footer>button")
+	public WebElement done;
+
+	public WebDriver driver;
+	public boolean flag = false;
+	public boolean iSResetDisplay = false;
+
+	public TestBPage(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+
+	}
+
+	WaitForMilliSeconds waitFor = new WaitForMilliSeconds();
+
+	public void testBPageMethod() {
+
+		allWeatherStrategy.click();
+		customisePortfolio.click();
+		customise.click();
+
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		jse.executeScript("window.scrollBy(0,200)");
+
+		iSResetDisplay = reset.isDisplayed();
+		if (iSResetDisplay) {
+
+			addStocklink.click();
+		}
+		String windowHandle = driver.getWindowHandle();
+		driver.switchTo().window(windowHandle);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView();", addStockBTGroupPlc);
+
+		addStockBTGroupPlc.click();
+		done.click();
+
+		// boolean flag = false;
+		List<WebElement> list = driver.findElements(By.cssSelector(
+				"#customise-portfolio>div>div.portfolio-constituents>div>div:nth-child(3)>div>div>div:nth-child(3)"));
+		for (int i = 0; i < list.size(); i++) {
+			 if (list.get(i).getText().equals("BT Group plc")) {
+			//if (list.get(i).getText().equals("sanjay")) {
+				flag = true;
+
+			}
+
+		}
+
+	}
+
+}

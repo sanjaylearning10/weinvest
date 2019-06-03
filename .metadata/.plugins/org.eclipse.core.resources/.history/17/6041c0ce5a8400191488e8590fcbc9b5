@@ -1,0 +1,63 @@
+package com.weinvest.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
+
+import com.utilities.WaitForMilliSeconds;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class TestAPage {
+
+	@FindBy(id = "btn-explore79")
+	private WebElement allWeatherStrategy;
+
+	@FindBy(css = "a.btn-invest.btn-md.btn-customize-portfolio")
+	private WebElement customisePortfolio;
+
+	@FindBy(xpath = "//a[contains(text(),'Customise')]")
+	private WebElement customise;
+
+	@FindBy(css = "div.row.constituent-row.vertical-align>div>div>input[data-isin='SPY']")
+	private WebElement spdrSlider;
+
+	@FindBy(className = "//*[contains(text(),'Rebalance')]")
+	private WebElement rebalance;
+	
+	@FindBy(className = "//*[contains(text(),'Invest Now')]")
+	private WebElement investNow;
+
+	public WebDriver driver;
+
+	public TestAPage(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+
+	}
+
+	WaitForMilliSeconds waitFor = new WaitForMilliSeconds();
+
+	public void flightBooking() {
+
+		allWeatherStrategy.click();
+		customisePortfolio.click();
+		customise.click();
+		
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		jse.executeScript("window.scrollBy(0,200)");
+
+		Actions action = new Actions(driver);
+		action.clickAndHold(spdrSlider).moveByOffset(1, 0).release().build().perform();
+		
+		rebalance.click();
+		investNow.click();
+		
+	}
+}

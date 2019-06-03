@@ -1,0 +1,88 @@
+package com.weinvest.pages;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
+
+import junit.framework.Assert;
+
+public class TestCPage {
+
+	WebDriver driver;
+
+	@Test
+	public void TestC() throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "D:\\latestselenium-3.0\\chromedriver_win32\\chromedriver.exe");
+
+		ChromeOptions options = new ChromeOptions();
+
+		options.addArguments("disable-notifications");
+		driver = new ChromeDriver(options);
+		driver.manage().deleteAllCookies();
+		driver.manage().window().maximize();
+		// driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		String baseURL = "https://sfo-demo.herokuapp.com/model-portfolio";
+
+		driver.get(baseURL);
+		driver.manage().deleteAllCookies();
+		driver.manage().window().maximize();
+
+		WebElement tab1 = driver.findElement(By.cssSelector(
+				"div.container > div:nth-child(4) > ul.model-portfolio-navs.hidden-sm.hidden-xs > li:nth-child(1)>a"));
+		Boolean tab1text = tab1.getText().contains("3 Portfolio recommendations based on your preferences");
+
+		String tab1Number = tab1.getText().trim().replaceAll("[^0-9]", "");
+
+		WebElement tab2 = driver.findElement(By.cssSelector(
+				"div.container > div:nth-child(4) > ul.model-portfolio-navs.hidden-sm.hidden-xs > li:nth-child(2)>a"));
+		Boolean tab2text = tab2.getText().contains("15 other portfolio choices available");
+
+		String tab2Number = tab2.getText().trim().replaceAll("[^0-9]", "");
+
+		System.out.println(tab1text);
+		System.out.println(tab2text);
+
+		System.out.println("************************");
+		System.out.println(tab1Number);
+		System.out.println(tab2Number);
+
+		int width = 375;
+		int height = 667;
+		Dimension dimension = new Dimension(width, height);
+		driver.manage().window().setSize(dimension);
+
+		WebElement tab1resize = driver.findElement(By.cssSelector(
+				"section > div.container > div:nth-child(4) > ul.model-portfolio-navs.mobile> li:nth-child(1)>a"));
+
+		WebElement tab2resize = driver.findElement(By.cssSelector(
+				"section > div.container > div:nth-child(4) > ul.model-portfolio-navs.mobile> li:nth-child(2)>a"));
+
+		Boolean tab11text = tab1resize.getText().contains("Recommendations");
+		Boolean tab21text = tab2resize.getText().contains("Other");
+
+		System.out.println("************************");
+		System.out.println(tab11text);
+		System.out.println(tab21text);
+
+		System.out.println("#######################");
+
+		String tab1resizeNumber = tab1resize.getText().trim().replaceAll("[^0-9]", "");
+		String tab2resizeNumber = tab2resize.getText().trim().replaceAll("[^0-9]", "");
+		System.out.println(tab1resizeNumber);
+		System.out.println(tab2resizeNumber);
+
+	}
+
+}

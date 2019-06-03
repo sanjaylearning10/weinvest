@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <test name="Test">
+    <classes>
+      <class name="test.testB.TestB"/>
+      <class name="test.testA.TestA"/>
+      <class name="test.testC.TestC"/>
+    </classes>
+  </test> <!-- Test -->
+  <test name="Test(failed)">
+    <classes>
+      <class name="test.testA.TestA">
+        <methods>
+          <include name="TestA"/>
+        </methods>
+      </class> <!-- test.testA.TestA -->
+      <class name="test.testC.TestC">
+        <methods>
+          <include name="testCTest"/>
+        </methods>
+      </class> <!-- test.testC.TestC -->
+      <class name="test.testB.TestB">
+        <methods>
+          <include name="TestA"/>
+          <include name="setUp"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- test.testB.TestB -->
+    </classes>
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

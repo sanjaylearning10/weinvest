@@ -1,0 +1,33 @@
+package test.testC;
+
+import com.test.base.BaseTest;
+import com.weinvest.pages.TestCPage;
+
+import junit.framework.Assert;
+
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+public class TestC extends BaseTest {
+
+	@Test
+	public void testCTest() {
+		TestCaseName = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		System.out.println("Executing Scenario ........" + TestCaseName);
+		TestCPage test_CPage = new TestCPage(driver);
+		test_CPage.testCBeforeResizeWindow();
+		test_CPage.testCAfterResizeWindow();
+
+		Assert.assertTrue(test_CPage.tab1textBeforeResize);
+		Assert.assertTrue(test_CPage.tab2textAfterResize);
+
+		Assert.assertTrue(test_CPage.tab1textBeforeResize);
+		Assert.assertTrue(test_CPage.tab2textAfterResize);
+
+		Assert.assertEquals(test_CPage.tab1NumberBeforeResize, test_CPage.tab1NumberAfterResize);
+		Assert.assertEquals(test_CPage.tab2NumberBeforeResize, test_CPage.tab2NumberAfterResize);
+
+	}
+
+}

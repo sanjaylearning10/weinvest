@@ -1,0 +1,86 @@
+package com.weinvest.com.weinvest;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
+
+import junit.framework.Assert;
+
+public class TestB {
+
+	WebDriver driver;
+
+	@Test
+	public void TestA() throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "D:\\latestselenium-3.0\\chromedriver_win32\\chromedriver.exe");
+
+		ChromeOptions options = new ChromeOptions();
+
+		options.addArguments("disable-notifications");
+		driver = new ChromeDriver(options);
+		driver.manage().deleteAllCookies();
+		driver.manage().window().maximize();
+		// driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		String baseURL = "https://sfo-demo.herokuapp.com/model-portfolio";
+
+		driver.get(baseURL);
+		driver.manage().deleteAllCookies();
+		driver.manage().window().maximize();
+
+		driver.findElement(By.id("btn-explore79")).click();
+		driver.findElement(By.cssSelector("a.btn-invest.btn-md.btn-customize-portfolio")).click();
+		driver.findElement(By.xpath("//a[contains(text(),'Customise')]")).click();
+
+		Boolean resetDisplay = driver.findElement(By.xpath("//*[contains(text(),'Reset')]")).isDisplayed();
+		System.out.println(resetDisplay);
+
+		driver.findElement(
+				By.cssSelector("div.portfolio-constituents > div > div:nth-child(3)>div>div>div:nth-child(4)>div>a"))
+				.click();
+		// driver.switchTo().alert();
+
+		String windowHandle = driver.getWindowHandle();
+		driver.switchTo().window(windowHandle);
+
+		WebElement element = driver.findElement(By.cssSelector(
+				"#modal-1 > div > div > div.modal-body > div > div > div:nth-child(66) > div:nth-child(4) > button"));
+
+		// This will scroll the page Horizontally till the element is found
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView();", element);
+		element.click();
+
+		Thread.sleep(4000);
+		driver.findElement(By.cssSelector("#modal-1 > div > div > div.modal-footer > button")).click();
+		Thread.sleep(4000);
+		
+		boolean flag=false;
+		List<WebElement> list = driver.findElements(By.cssSelector(
+				"#customise-portfolio > div > div.portfolio-constituents > div > div:nth-child(3) > div > div>div:nth-child(3)"));
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getText().equals("sanjat")) {
+				flag=true;
+				
+			}
+
+		}
+		
+		if(flag==true)
+			Assert.assertTrue(true);
+		else 
+			Assert.assertFalse(false);
+
+	}
+}
